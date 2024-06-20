@@ -21,8 +21,13 @@ const pool = new Pool({
 
 app.get("/", async (req, res) => {
   // res.json(vidoesStaticData);
-  let data = await pool.query("SELECT * FROM videosurl;");
-  res.json(data.rows);
+  try {
+    let data = await pool.query("SELECT * FROM videosurl;");
+    res.json(data.rows);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("SERVER IS BUSY, PLEASE TRY AGAIN LATER");
+  }
 });
 
 const PORT = 3001;
